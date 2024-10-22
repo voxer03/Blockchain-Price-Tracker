@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Token {
+  id Int @default(autoincrement()) @id
+  name String
+  address String @unique
+  prices TokenPrice[]
+  priceAlerts PriceAlerts[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TokenPrice {
+  id Int @default(autoincrement()) @id
+  price String // Prices in web3 are handled via bignumbers hence using String
+  tokenId Int?
+  token Token? @relation(fields: [tokenId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PriceAlerts {
+  id Int @default(autoincrement()) @id
+  price String // Prices in web3 are handled via bignumbers hence using String
+  email String
+  tokenId Int?
+  token Token? @relation(fields: [tokenId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

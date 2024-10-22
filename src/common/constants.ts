@@ -1,0 +1,2 @@
+export const ETH_BTC_PAIR = '0xBb2b8038a1640196FbE3e38816F3e67Cba72D940';
+export const MORALIS_CHAIN = '0x1';
